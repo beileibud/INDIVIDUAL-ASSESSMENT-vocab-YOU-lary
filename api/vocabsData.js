@@ -3,8 +3,8 @@ import client from '../utils/client';
 const endpoint = client.databaseURL;
 
 // FIXME:  GET ALL VOCABLARY
-const getVocabs = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/vocabs.json`, {
+const getVocabs = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/vocabs.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -21,8 +21,8 @@ const getVocabs = () => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getSingleVocab = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/vocabs.json`, {
+const getSingleVocab = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/vocabs${firebaseKey}.json`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -80,39 +80,48 @@ const updateVocab = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 // TODO: FILTER Language Tech
-const filterHTML = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/vocabs.json?orderBy="sale"&equalTo=true`, {
+const filterHTML = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/vocabs.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const filterLanguage = Object.values(data).filter((item) => item.languageTech.toLowerCase() === 'html');
+      resolve(filterLanguage);
+    })
     .catch(reject);
 });
 
-const filterCSS = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/vocabs.json?orderBy="sale"&equalTo=true`, {
+const filterCSS = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/vocabs.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const filterLanguage = Object.values(data).filter((item) => item.languageTech.toLowerCase() === 'css');
+      resolve(filterLanguage);
+    })
     .catch(reject);
 });
 
-const filterJAVA = () => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/vocabs.json?orderBy="sale"&equalTo=true`, {
+const filterJAVA = (uid) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/vocabs.json?orderBy="uid"&equalTo="${uid}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   })
     .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
+    .then((data) => {
+      const filterLanguage = Object.values(data).filter((item) => item.languageTech.toLowerCase() === 'javascript');
+      resolve(filterLanguage);
+    })
     .catch(reject);
 });
 

@@ -1,7 +1,7 @@
 import { createVocab, getVocabs, updateVocab } from '../api/vocabsData';
 import { showVocabs } from '../pages/Vocabs';
 
-const formEvents = () => {
+const formEvents = (user) => {
   document.querySelector('#main-container').addEventListener('submit', (e) => {
     e.preventDefault();
     // TODO: CLICK EVENT FOR SUBMITTING FORM FOR ADDING vocab
@@ -10,7 +10,6 @@ const formEvents = () => {
       const payload = {
         title: document.querySelector('#title').value,
         languageTech: document.querySelector('#languageTech').value,
-        TimeSubmitted: document.querySelector('#TimeSubmitted').value,
         definition: document.querySelector('#definition').value,
         uid: user.uid,
       };
@@ -20,24 +19,23 @@ const formEvents = () => {
         console.warn(patchPayload);
 
         updateVocab(patchPayload).then(() => {
-          getVocabs().then(showVocabs);
+          getVocabs(user.uid).then(showVocabs);
         });
       });
     }
 
-    // TODO: CLICK EVENT FOR EDITING A BOOK
+    // TODO: CLICK EVENT FOR EDITING A vocab
     if (e.target.id.includes('update-vocab')) {
       const [, firebaseKey] = e.target.id.split('--');
       console.warn('CLICKED UPDATE VOCAB', e.target.id);
       const payload = {
         title: document.querySelector('#title').value,
         languageTech: document.querySelector('#languageTech').value,
-        TimeSubmitted: document.querySelector('#TimeSubmitted').value,
         definition: document.querySelector('#definition').value,
         firebaseKey,
       };
       updateVocab(payload).then(() => {
-        getVocabs().then(showVocabs);
+        getVocabs(user.uid).then(showVocabs);
       });
     }
   });

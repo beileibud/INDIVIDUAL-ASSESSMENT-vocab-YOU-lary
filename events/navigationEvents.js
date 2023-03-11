@@ -4,21 +4,21 @@ import { showVocabs } from '../pages/Vocabs';
 import { signOut } from '../utils/auth';
 
 // navigation events
-const navigationEvents = () => {
+const navigationEvents = (user) => {
   // LOGOUT BUTTON
   document.querySelector('#logout-button')
     .addEventListener('click', signOut);
 
   // TODO: ALL vocab
   document.querySelector('#all-vocabs').addEventListener('click', () => {
-    console.warn('CLICKED ALL vocabs');
-    getVocabs().then(showVocabs);
+    console.warn('CLICKED ALL vocabs', user.uid);
+    getVocabs(user.uid).then(showVocabs);
   });
 
   // add new vocab on navbar
   document.querySelector('#add-vocab').addEventListener('click', () => {
-    console.warn('CLICKED VOCAB');
-    addVocabForm();
+    console.warn('CLICKED VOCAB', user.uid);
+    addVocabForm(user.uid);
   });
 
   // STRETCH: SEARCH
